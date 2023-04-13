@@ -1,8 +1,10 @@
+import { MainPage } from './page/MainPage';
 
+import './styles/main.scss'
 
 function App() {
   return (
-    <div>Hello</div>
+    <MainPage />
   );
 }
 
