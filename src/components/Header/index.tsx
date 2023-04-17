@@ -3,9 +3,9 @@ import { Search } from './components/Search'
 
 export const Header = () => {
   return (
-    <div className="head">
+    <header className="head">
       <Search />
       <Info />
-    </div>
+    </header>
   )
 }

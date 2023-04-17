@@ -1,0 +1,1 @@
+export const issues = (state: any) => state.issues
