@@ -1,3 +1,7 @@
+export interface IIssueStatus {
+  title: string
+}
+
 export const issueStatus = [
   {
     title: 'ToDo',
@@ -9,3 +13,4 @@ export const issueStatus = [
     title: 'Done',
   },
 ]
+

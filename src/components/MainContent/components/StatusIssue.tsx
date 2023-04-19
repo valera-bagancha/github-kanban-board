@@ -1,29 +1,25 @@
 import { FC } from 'react'
 
+import { IIssues } from '../../../types/issues';
+
 interface IProps {
-  title: string
+  title: string;
+  issues: IIssues[]
 }
 
-export const StatusIssue: FC<IProps> = ({title}) => {
+export const StatusIssue: FC<IProps> = ({ title, issues }) => {
+  
   return (
     <li className="issue-status-list" key={title}>
       <h2 className="status-issues">{title}</h2>
       <ul className="issue-list">
-        <li className="issue">
-          <h3 className="issue-title">Some issues title</h3>
-          <span>#315 opened 3 days ago</span>
-          <span>Admin | Comments: 3</span>
-        </li>
-        <li className="issue">
-          <h3 className="issue-title">Some issues title</h3>
-          <span>#315 opened 3 days ago</span>
-          <span>Admin | Comments: 3</span>
-        </li>
-        <li className="issue">
-          <h3 className="issue-title">Some issues title</h3>
-          <span>#315 opened 3 days ago</span>
-          <span>Admin | Comments: 3</span>
-        </li>
+        {issues.map((data: any) => (
+          <li className="issue" key={data.number}>
+            <h3 className="issue-title">{data.title}</h3>
+            <span>#{data.number} opened {(data.updated_at).slice(0, 10)}</span>
+            <span>{data.user.login} | Comments: {data.comments}</span>
+          </li>
+        ))}
       </ul>
     </li>
   )

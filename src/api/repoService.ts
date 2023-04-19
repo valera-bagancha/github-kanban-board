@@ -1,13 +1,12 @@
 import axios from 'axios';
-
+import { headers } from '../constants/api/headers'
+import { IRepo } from '../types/repo';
 
 class RepoService {
-  async getRepoInfo(repo: string, name: string): Promise<any> {
+  async getRepoInfo(repo: string, name: string): Promise<IRepo | void> {
     try {
-      const { data } = await axios.get<any>(`https://api.github.com/repos/${repo}/${name}`, {
-        headers: {
-          'X-GitHub-Api-Version': '2022-11-28'
-        }
+      const { data } = await axios.get<IRepo>(`https://api.github.com/repos/${repo}/${name}`, {
+        headers
       })
 
       return data

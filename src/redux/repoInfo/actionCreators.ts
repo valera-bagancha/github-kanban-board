@@ -1,3 +1,4 @@
+import { IRepo } from '../../types/repo'
 import { ActionTypes } from './types'
 
 const { ADD_REPO_INFO } = ActionTypes
