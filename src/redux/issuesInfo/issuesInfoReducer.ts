@@ -1,12 +1,18 @@
-import { Action, ActionTypes } from './types'
+import { insert } from '../../utils/insert'
+import { Action, ActionTypes, IStateIssues } from './types'
 
 const initialState = {
   issues: [],
   isPending: false,
-  errorMessage: false
+  errorMessage: false,
+  // changeStatus : {
+  // idStart: null,
+  // dropIndex: null,
+  // dropStatus: null,
+  // }
 }
 
-export const issuesInfoReducer = (state: any = initialState, { type, payload }: Action) => {
+export const issuesInfoReducer = (state: IStateIssues = initialState, { type, payload }: any) => {
   switch (type) {
     case ActionTypes.ADD_ISSUES_INFO:
       return {
@@ -24,6 +30,18 @@ export const issuesInfoReducer = (state: any = initialState, { type, payload }: 
       return {
         ...state,
         errorMessage: payload
+      }
+
+    case ActionTypes.CHANGE_STATUS:
+      return {
+        ...state,
+        issues: insert(state.issues.filter((issue) => (issue.id !== payload.newObjStatus.id)), payload.dropIndex, payload.newObjStatus),
+      }
+
+    case ActionTypes.ADD_TO_EMPTY_STATUS:
+      return {
+        ...state,
+        issues: state.issues.map((issue) => issue.id === payload.issueId ? ({...issue, condition: payload.status}) : issue)
       }
 
     default:

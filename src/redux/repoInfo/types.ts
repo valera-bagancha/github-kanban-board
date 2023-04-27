@@ -9,4 +9,8 @@ interface IAddRepoInfo {
   payload: IRepo
 }
 
+export interface IStateRepo {
+  repo: IRepo
+}
+
 export type Action = IAddRepoInfo

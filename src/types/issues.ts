@@ -61,6 +61,7 @@ export interface IIssues {
   events_url: string;
   html_url: string;
   id: number;
+  condition: string;
   node_id: string;
   number: number;
   title: string;
@@ -123,6 +124,11 @@ export interface IIssues {
   timeline_url: string;
   performed_via_github_app: null;
   state_reason: null;
+} 
+
+
+export interface IDataIssue {
+  title: string;
+  id: number;
+  issue: IIssues[]
 }
-
-

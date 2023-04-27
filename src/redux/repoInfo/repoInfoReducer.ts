@@ -1,7 +1,8 @@
-import { Action, ActionTypes } from './types'
+import { IState } from '../../types/state'
+import { Action, ActionTypes, IStateRepo } from './types'
 
 const initialState = {
-  repo: null
+  repo: {}
 }
 
 export const repoInfoReducer = (state: any = initialState, {type, payload}: Action) => {

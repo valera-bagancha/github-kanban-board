@@ -3,7 +3,7 @@ import { ActionTypes } from './types'
 
 const { ADD_REPO_INFO } = ActionTypes
 
-export const addRepoInfo = (repo: any) => ({
+export const addRepoInfo = (repo: IRepo) => ({
   type: ADD_REPO_INFO,
   payload: repo
 })

@@ -11,9 +11,9 @@ export interface IErrorMessage {
 }
 
 class IssueService {
-  async getIssueInfo(repo: string, name: string): Promise<IIssues[] | void> {
+  async getIssueInfo(repo: string, name: string, introStr: string): Promise<IIssues[] | void> {
     try {
-      const { data } = await axios.get<IIssues[]>(`https://api.github.com/repos/${repo}/${name}/issues`, {
+      const { data } = await axios.get<IIssues[]>(`${introStr}//api.github.com/repos/${repo}/${name}/issues`, {
         params: {state: 'all'},
         headers
       })

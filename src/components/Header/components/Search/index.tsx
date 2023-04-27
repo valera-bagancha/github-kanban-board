@@ -6,6 +6,7 @@ import repoService from '../../../../api/repoService';
 import issueService from '../../../../api/issueService';
 import { addRepoInfo } from '../../../../redux/repoInfo/actionCreators';
 import { addIssuesInfo, errorMessage, isIssuesLoading } from '../../../../redux/issuesInfo/actionCreators';
+import { IIssues } from '../../../../types/issues';
 
 
 export const Search = () => {
@@ -13,39 +14,56 @@ export const Search = () => {
   const dispatch = useDispatch()
 
   const com = value.indexOf('.com')
-  const str = value.slice(com +5).split('/')
+  const str = value.slice(com + 5).split('/')
   const [repo, name] = str
-  
+  const introStr = value.split('//')[0]
+
   const onSearch = () => {
     if (!value) return
     dispatch(isIssuesLoading(true))
 
-    delay(3000).then(async () => {
+    delay(1500).then(async () => {
       try {
-        const issueInfo = await issueService.getIssueInfo(repo, name)
-        const repoInfo = await repoService.getRepoInfo(repo,name)
-      
+        const issueInfo = await issueService.getIssueInfo(repo, name, introStr)
+        const repoInfo = await repoService.getRepoInfo(repo, name, introStr)
+
         dispatch(isIssuesLoading(false))
         dispatch(errorMessage(false))
+
+        if (!issueInfo) return
+        if (!repoInfo) return
+
+        const currentIssues = issueInfo.map((issue: any) => {
+
+          if (issue.state === 'open') {
+            return { ...issue, condition: 'In Progress' }
+          }
+          if (issue.state === 'closed') {
+            return { ...issue, condition: 'Done' }
+          }
+          if (issue.created_at === issue.updated_at) {
+            return ({ ...issue, condition: 'ToDo' })
+          }
+        })
+
+         
+          dispatch(addRepoInfo(repoInfo))
+          dispatch(addIssuesInfo(currentIssues))
         
-
-        if (!issueInfo) return 
-        if (!repoInfo) return 
-
-        dispatch(addRepoInfo(repoInfo))
-        dispatch(addIssuesInfo(issueInfo))
+          
+        
       } catch (error) {
-       
+
         dispatch(errorMessage(true))
         dispatch(isIssuesLoading(false))
       }
     })
   }
 
-  
+
   return (
     <div className="search">
-      <input className="input" type="text" placeholder="Enter repo URL" value={value} onChange={(e) => setValue(e.target.value)}/>
+      <input className="input" type="text" placeholder="Enter repo URL" value={value} onChange={(e) => setValue(e.target.value)} />
       <button className="button" onClick={onSearch}>Load issues</button>
     </div>
   )
