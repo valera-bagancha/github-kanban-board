@@ -33,7 +33,7 @@ export const Search = () => {
         if (!issueInfo) return
         if (!repoInfo) return
 
-        const currentIssues = issueInfo.map((issue: any) => {
+        const currentIssues = issueInfo.map((issue: IIssues) => {
 
           if (issue.state === 'open') {
             return { ...issue, condition: 'In Progress' }
@@ -46,6 +46,7 @@ export const Search = () => {
           }
         })
 
+        if (currentIssues) return
          
           dispatch(addRepoInfo(repoInfo))
           dispatch(addIssuesInfo(currentIssues))

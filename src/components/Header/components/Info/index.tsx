@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { repoSelector } from '../../../../redux/repoInfo/selectors'
-import { errorMessageSelector, issuesSelector } from '../../../../redux/issuesInfo/selectors'
-import { insert } from '../../../../utils/insert'
+import { errorMessageSelector } from '../../../../redux/issuesInfo/selectors'
 
 export const Info = () => {
   const repo = useSelector(repoSelector)

@@ -18,7 +18,7 @@ export const errorMessage = (isError: boolean) => ({
   payload: isError
 })
 
-export const changeStatus = (startIssue: any, dropIndex: any, status: any) => {
+export const changeStatus = (startIssue: IIssues, dropIndex: number, status: string) => {
   const newObjStatus = { ...startIssue, condition: status }
 
   return ({
@@ -31,8 +31,7 @@ export const changeStatus = (startIssue: any, dropIndex: any, status: any) => {
   })
 }
 
-
-export const addToEmptyStatus = (status: any, issueId: any) => ({
+export const addToEmptyStatus = (status: string, issueId: number) => ({
   type: ADD_TO_EMPTY_STATUS,
   payload: {
     status,

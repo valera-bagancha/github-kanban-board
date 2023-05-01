@@ -1,4 +1,4 @@
-import { IIssues } from '../../types/issues'
+import { IAddToEmptyStatusIssue, IChangeStatusIssue, IIssues } from '../../types/issues'
 
 export enum ActionTypes {
   ADD_ISSUES_INFO = 'ADD_ISSUES_INFO',
@@ -12,7 +12,6 @@ interface IAddIssuesInfo {
   type: ActionTypes.ADD_ISSUES_INFO
   payload: IIssues[]
 }
-
 
 interface IIsIssuesLoading {
   type: ActionTypes.IS_ISSUES_LOADING
@@ -32,12 +31,12 @@ export interface IStateIssues {
 
 export interface IChangeStatus {
   type: ActionTypes.CHANGE_STATUS
-  payload: any
+  payload: IChangeStatusIssue
 }
 
 export interface IAddToEmptyStatus {
   type: ActionTypes.ADD_TO_EMPTY_STATUS
-  payload: any
+  payload: IAddToEmptyStatusIssue
 }
 
 export type Action = IAddIssuesInfo | IIsIssuesLoading | IErrorMessage | IChangeStatus | IAddToEmptyStatus

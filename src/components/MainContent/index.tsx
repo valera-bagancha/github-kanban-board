@@ -10,8 +10,6 @@ export const MainContent = () => {
   const isPending = useSelector(loaderSelector)
   const isErrorMessage = useSelector(errorMessageSelector)
 
-  
-
   if (isPending) {
     return (
       <Loader />

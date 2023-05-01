@@ -10,7 +10,7 @@ interface IAddRepoInfo {
 }
 
 export interface IStateRepo {
-  repo: IRepo
+  repo: IRepo | null
 }
 
 export type Action = IAddRepoInfo

@@ -5,14 +5,9 @@ const initialState = {
   issues: [],
   isPending: false,
   errorMessage: false,
-  // changeStatus : {
-  // idStart: null,
-  // dropIndex: null,
-  // dropStatus: null,
-  // }
 }
 
-export const issuesInfoReducer = (state: IStateIssues = initialState, { type, payload }: any) => {
+export const issuesInfoReducer = (state: IStateIssues = initialState, { type, payload }: Action) => {
   switch (type) {
     case ActionTypes.ADD_ISSUES_INFO:
       return {

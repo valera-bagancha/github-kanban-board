@@ -1,20 +1,23 @@
-import { FC } from 'react'
+import { FC, SyntheticEvent } from 'react'
 import { IIssues } from '../../../types/issues';
-
-// import { IIssues } from '../../../types/issues';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { addIssuesInfo, changeStatus, index, iditi } from '../../../redux/issuesInfo/actionCreators';
-// import { idSelector, inProgressIssueSelector, indexSelector, issuesSelector } from '../../../redux/issuesInfo/selectors';
 
 interface IProps {
   title: string;
-  issues: any
-  dropHandler: any;
-  dragStartHandler: any;
+  issues: IIssues[]
+  dropHandler: (
+    e: SyntheticEvent<HTMLLIElement>, 
+    condition: string, 
+    dataIssue: IIssues, 
+    isEmpty: boolean
+    ) => void;
+  dragStartHandler: (issue: IIssues) => void;
   dragOverHandler: any;
-  dragLeaveHandler: any;
-  dragEndHandler: any;
-  dropCardHandler: any
+  dragLeaveHandler: (e: SyntheticEvent<HTMLLIElement>) => void;
+  dropCardHandler: (
+    e: React.DragEvent<HTMLUListElement>,
+    condition: string, 
+    isEmpty: boolean
+    ) => void
 }
 
 export const StatusIssue: FC<IProps> = ({
@@ -24,7 +27,6 @@ export const StatusIssue: FC<IProps> = ({
   dropHandler,
   dragOverHandler,
   dragLeaveHandler,
-  dragEndHandler,
   dropCardHandler
 }) => {
 
@@ -35,12 +37,11 @@ export const StatusIssue: FC<IProps> = ({
         onDragOver={(e) => dragOverHandler(e)}
         onDrop={(e) => dropCardHandler(e, title, !issues.length)}
       >
-        {issues.map((data: any) => (
+        {issues.map((data: IIssues) => (
           <li className="issue" key={data.number} draggable={true}
             onDragOver={(e) => dragOverHandler(e)}
-            onDragLeave={e => dragLeaveHandler(e)}
-            onDragStart={(e) => dragStartHandler(data.id, data)}
-            onDragEnd={(e) => dragEndHandler(e, data.condition, data.id)}
+            onDragLeave={(e) => dragLeaveHandler(e)}
+            onDragStart={(e) => dragStartHandler(data)}
             onDrop={(e) => dropHandler(e, data.condition, data, !issues.length)}
           >
             <h3 className="issue-title">{data.title}</h3>

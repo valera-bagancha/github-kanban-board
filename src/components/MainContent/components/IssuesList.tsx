@@ -1,47 +1,47 @@
 import { StatusIssue } from './StatusIssue'
 import { useDispatch, useSelector } from 'react-redux'
 import { allIssuesSelector, issuesSelector } from '../../../redux/issuesInfo/selectors'
-import { useCallback, useState } from 'react'
-import { IDataIssue, IIssues } from '../../../types/issues'
+import { useCallback, useState, SyntheticEvent } from 'react'
+import { IAllIssues, IIssues } from '../../../types/issues'
 import { addToEmptyStatus, changeStatus } from '../../../redux/issuesInfo/actionCreators'
 
 export const IssuesList = () => {
-  const [movedIssue, setMovedIssue] = useState<any>(null)
+  const [movedIssue, setMovedIssue] = useState<IIssues | null>(null)
 
   const dispatch = useDispatch()
 
   const allIssues = useSelector(allIssuesSelector)
+  
   const issues = useSelector(issuesSelector)  
 
-
-  console.log('allIssues', allIssues);
-  
-
-  const dragOverHandler = useCallback((e: any) => {
+  const dragOverHandler = useCallback((e: SyntheticEvent<HTMLLIElement>) => {
     e.preventDefault()
-    if (e.target.className == 'issue') {
-      e.target.style.boxShadow = '0 0 30px grey'
+
+    const target = e.target as HTMLElement;
+
+    if (target.className == 'issue') {
+      target.style.boxShadow = '0 0 30px grey'
     }
   },[])
 
-  const dragLeaveHandler = useCallback((e: any) => {
-    e.target.style.boxShadow = 'none'
+  const dragLeaveHandler = useCallback((e: SyntheticEvent<HTMLLIElement>) => {
+    const target = e.target as HTMLElement;
+
+    target.style.boxShadow = 'none'
   }, [])
 
-  const dragStartHandler = useCallback((id: number, issue: IIssues) => {
+  const dragStartHandler = useCallback((issue: IIssues) => {
     setMovedIssue(issue)
   }, [])
 
+  const dropHandler = useCallback((e: SyntheticEvent<HTMLLIElement>, condition: string, dataIssue: IIssues, isEmpty: boolean) => {  
+    const target = e.target as HTMLElement;
 
-  const dragEndHandler = useCallback((e: any, condition: string, id: number) => {
-   
-  }, [])
+    target.style.boxShadow = 'none'
 
-  const dropHandler = useCallback((e: any, condition: string, dataIssue: IIssues, isEmpty: any) => {  
-    e.target.style.boxShadow = 'none'
-
-    // const isEmpty = !currentStatusIssues.length
     const dropIndex = issues.indexOf(dataIssue)
+
+    if (!movedIssue) return
 
     if (!isEmpty) {
       dispatch(changeStatus(movedIssue, dropIndex, condition))
@@ -49,7 +49,8 @@ export const IssuesList = () => {
     
   }, [movedIssue, dispatch])
 
-  const dropCardHandler = useCallback((e: any, condition: any, isEmpty: any) => {
+  const dropCardHandler = useCallback((e: React.DragEvent<HTMLUListElement>, condition: string, isEmpty: boolean) => {
+    if (!movedIssue) return
 
     if (isEmpty) {
       dispatch(addToEmptyStatus(condition, movedIssue.id))
@@ -60,14 +61,13 @@ export const IssuesList = () => {
 
   return (
     <>
-      {allIssues.map((status: any) => (
+      {allIssues.map((status: IAllIssues) => (
         <StatusIssue 
         key={status.id} 
         title={status.title} 
         issues={status.issue} 
         dragOverHandler={dragOverHandler} 
         dragLeaveHandler={dragLeaveHandler} 
-        dragEndHandler={dragEndHandler} 
         dropHandler={dropHandler} 
         dragStartHandler={dragStartHandler} 
         dropCardHandler={dropCardHandler}        

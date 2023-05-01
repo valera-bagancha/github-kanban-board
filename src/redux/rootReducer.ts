@@ -11,8 +11,6 @@ const persistConfig = {
   whiteList: ['issuesInfo']
 }
 
-// export const rootReducer = combineReducers({ issuesInfo: issuesInfoReducer, repoInfo: repoInfoReducer});
-
 export const rootReducer = persistReducer(
   persistConfig,
   combineReducers({
